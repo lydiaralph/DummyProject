@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 
-<project name="ElectionResultsApplication" default="main" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="ElectionResultsApplication" default="localMain" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property file="config.properties" />
 	
 	<property name="distribution" value="ElectionResultsApplication" />
 	
+	<target name="localMain" depends="setupFolders" />
 	<target name="main" depends="setupFolders,getDependencies" />
 	
 	<target name="setupFolders" depends="deleteOldFolders,makeNewFolders,checkFoldersExist"/>
@@ -19,13 +20,13 @@
 	<target name="makeNewFolders">
 		<mkdir dir="dist" />
 		<mkdir dir="dist/${distribution}" />
-		<mkdir dir="dist/${distribution}/WEB-INF" />
-		<mkdir dir="dist/${distribution}/WEB-INF/classes" />
-		<mkdir dir="dist/${distribution}/WEB-INF/lib" />
-		<copy todir="dist/${distribution}/WEB-INF">
-			<fileset dir="../${distribution}/WEB-INF"/>
+		<mkdir dir="dist/${distribution}/" />
+		<mkdir dir="dist/${distribution}//classes" />
+		<mkdir dir="dist/${distribution}/lib" />
+		<copy todir="dist/${distribution}/">
+			<fileset dir="../${distribution}/"/>
 		</copy>
-		<property name="lib.dir" value="dist/${distribution}/WEB-INF/lib" />
+		<property name="lib.dir" value="dist/${distribution}/lib" />
 	</target>
 	
 	<!-- Should only create these folders if they do not already exist, to avoid overwriting old files -->
