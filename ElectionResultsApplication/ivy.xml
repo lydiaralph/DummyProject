@@ -1,0 +1,7 @@
+<ivy-module version="2.0">
+	<info organisation="my-org" module="my-module" /> 
+	<dependencies>
+		<dependency org="junit" name="junit" rev="4.12"/>
+		<dependency org="junit-addons" name="junit-addons" rev="1.4" />
+	</dependencies>
+</ivy-module>
