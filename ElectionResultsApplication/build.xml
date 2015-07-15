@@ -5,7 +5,7 @@
 	
 	<property name="distribution" value="ElectionResultsApplication" />
 	
-	<target name="setupFolders" depends="deleteOldFolders,makeNewFolders"/>
+	<target name="setupFolders" depends="deleteOldFolders,makeNewFolders,checkFoldersExist"/>
 	
 	
 	<target name="deleteOldFolders">	
@@ -22,8 +22,13 @@
 		<copy todir="dist/${distribution}/WEB-INF">
 			<fileset dir="../${distribution}/WEB-INF"/>
 		</copy>
-		<mkdir dir="dist/${distribution}/Inbound" />
-		<mkdir dir="dist/${distribution}/Processed" />
-		<mkdir dir="dist/${distribution}/Invalid" />
 	</target>
+	
+	<!-- Should only create these folders if they do not already exist, to avoid overwriting old files -->
+	<target name="checkFoldersExist">
+		<mkdir dir="Inbound" />
+		<mkdir dir="Processed" />
+		<mkdir dir="Invalid" />
+	</target>
+		
 </project>
