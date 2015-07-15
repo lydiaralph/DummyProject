@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<project name="ElectionResultsApplication" default="setupFolders" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property file="config.properties" />
+	
+	<property name="distribution" value="ElectionResultsApplication" />
+	
+	<target name="setupFolders" depends="deleteOldFolders,makeNewFolders"/>
+	
+	
+	<target name="deleteOldFolders">	
+		<delete dir="dist" />
+		<delete dir="docs" />
+	</target>
+	
+	<target name="makeNewFolders">
+		<mkdir dir="dist" />
+		<mkdir dir="dist/${distribution}" />
+		<mkdir dir="dist/${distribution}/WEB-INF" />
+		<mkdir dir="dist/${distribution}/WEB-INF/classes" />
+		<mkdir dir="dist/${distribution}/WEB-INF/lib" />
+		<copy todir="dist/${distribution}/WEB-INF">
+			<fileset dir="../${distribution}/WEB-INF"/>
+		</copy>
+		<mkdir dir="dist/${distribution}/Inbound" />
+		<mkdir dir="dist/${distribution}/Processed" />
+		<mkdir dir="dist/${distribution}/Invalid" />
+	</target>
+</project>
