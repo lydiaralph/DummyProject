@@ -1,12 +1,15 @@
 <?xml version="1.0"?>
 
-<project name="ElectionResultsApplication" default="setupFolders" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="ElectionResultsApplication" default="main" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property file="config.properties" />
 	
 	<property name="distribution" value="ElectionResultsApplication" />
 	
+	<target name="main" depends="setupFolders,getDependencies" />
+	
 	<target name="setupFolders" depends="deleteOldFolders,makeNewFolders,checkFoldersExist"/>
 	
+	<target name="getDependencies" depends="setIvyPresent,retrieveWithIvy,retrieveAll" />
 	
 	<target name="deleteOldFolders">	
 		<delete dir="dist" />
@@ -22,6 +25,7 @@
 		<copy todir="dist/${distribution}/WEB-INF">
 			<fileset dir="../${distribution}/WEB-INF"/>
 		</copy>
+		<property name="lib.dir" value="dist/${distribution}/WEB-INF/lib" />
 	</target>
 	
 	<!-- Should only create these folders if they do not already exist, to avoid overwriting old files -->
@@ -29,6 +33,23 @@
 		<mkdir dir="Inbound" />
 		<mkdir dir="Processed" />
 		<mkdir dir="Invalid" />
+	</target>
+	
+	<target name="setIvyPresent">
+		<available property="ivy.file.present" file="ivy.xml"/>
+	</target>
+	
+	<target name="retrieveWithIvy" if="ivy.file.present">
+		<echo>Retrieving dependencies with Ivy...</echo>
+		<ivy:cleancache/>
+		<ivy:retrieve sync="true" pattern="${lib.dir}/[artifact].[revision].[ext]"/>		
+	</target>
+
+	<target name="retrieveAll" unless="ivy.file.present">
+		<echo>! Ivy is not present. Retrieving all libraries...</echo>
+		<copy todir="${lib.dir}">
+			<fileset dir="../ElectionResultsDependencies" />
+		</copy>
 	</target>
 		
 </project>
