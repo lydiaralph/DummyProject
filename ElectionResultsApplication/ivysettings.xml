@@ -1,0 +1,13 @@
+<ivysettings>
+	<property name="ECLIPSE_PROJECT_PATH" value="${workspacedir}" />
+	<settings	
+			defaultResolver="my-repository"
+			defaultConflictManager="all" />
+	<resolvers>
+  		<filesystem name="my-repository">
+  			<artifact pattern="/home/lydia/Documents/TECH/ElectionResultsApplication/ElectionResultsApplication/ElectionResultsDependencies\[artifact]-[revision].[ext]"/>
+  			<artifact pattern="/home/lydia/Documents/TECH/ElectionResultsApplication/ElectionResultsApplication/ElectionResultsDependencies\[artifact].[ext]"/> 
+			<ivy pattern="/home/lydia/Documents/TECH/ElectionResultsApplication/ElectionResultsApplication/ivy.xml"/>
+		</filesystem>
+	</resolvers>
+</ivysettings>
