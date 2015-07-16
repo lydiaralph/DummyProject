@@ -31,9 +31,14 @@
 	
 	<!-- Should only create these folders if they do not already exist, to avoid overwriting old files -->
 	<target name="checkFoldersExist">
-		<mkdir dir="Inbound" />
-		<mkdir dir="Processed" />
-		<mkdir dir="Invalid" />
+		<echo>Creating Inbound folder: ${XML_INBOUND}</echo>
+		<mkdir dir="${XML_INBOUND}" />
+		
+		<echo>Creating Processed folder: ${XML_PROCESSED}</echo>
+		<mkdir dir="${XML_PROCESSED}" />
+		
+		<echo>Creating Invalid folder: ${XML_INVALID}</echo>
+		<mkdir dir="${XML_INVALID}" />
 	</target>
 	
 	<target name="setIvyPresent">
