@@ -3,5 +3,7 @@
 	<dependencies>
 		<dependency org="junit" name="junit" rev="4.12"/>
 		<dependency org="junit-addons" name="junit-addons" rev="1.4" />
+		<dependency org="sax" name="sax2r2" rev="" />
+		<dependency org="hamcrest" name="hamcrest-core" rev="1.3" /> 
 	</dependencies>
 </ivy-module>
