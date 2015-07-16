@@ -2,6 +2,7 @@ package ralph.lydia.processor;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -31,6 +32,13 @@ public class FileValidatorTest {
 		File f = new File(loadXmlFile(testFileName));
 		
 		assertFalse("Expected file validator to reject invalid file", fileValidator.validateXmlFile(f));
+	}
+	
+	@Test
+	public void testValidateXmlFromFileLoader(){
+			FileLoader loader = new FileLoaderImpl();
+			FileValidator fileValidator = new FileValidator();
+			assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(loader.loadNextFile()));
 	}
 	
 	private String loadXmlFile(String fileName){
