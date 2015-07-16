@@ -33,7 +33,7 @@ public class FileValidatorTest {
 		assertFalse("Expected file validator to reject invalid file", fileValidator.validateXmlFile(f));
 	}
 	
-	private String loadXmlFile(String fileName) throws FileValidatorException{
+	private String loadXmlFile(String fileName){
 		return LoadProperties.getKeyValue("XML_INBOUND") + fileName;
 	}
 	
