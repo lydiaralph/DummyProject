@@ -1,5 +1,7 @@
 package ralph.lydia.processor;
 
+import java.io.File;
+
 public interface FileLoader {
-	public void loadNextFile();
+	public File loadNextFile();
 }
