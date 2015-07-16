@@ -8,12 +8,14 @@ import javax.xml.validation.*;
 import org.xml.sax.SAXException;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FileValidator {
 
 	//	ErrorReporter errorReporter;
-	
+
 	private String errorString = " was not valid against the schema. Moving to 'Invalid' folder...";
 	private String validString = " was valid. Processing...";
 
@@ -30,7 +32,6 @@ public class FileValidator {
 			Validator validator = schema.newValidator();
 			validator.validate(xmlFileSource);
 			System.out.println(xmlFileSource.getSystemId() + validString);
-			System.out.println(this.getFailureMessage());
 			return true;
 		} catch (SAXException e) {
 			this.setFailureMessage(xmlFileSource.getSystemId() + errorString);
@@ -40,6 +41,7 @@ public class FileValidator {
 		}
 		catch (IOException e){
 			this.setFailureMessage("Could not analyse xmlFileSource " + xmlFileSource);
+			this.appendFailureMessage("\nReason: " + e.getMessage());
 			System.out.println(this.getFailureMessage());
 			return false;
 		}
@@ -58,9 +60,15 @@ public class FileValidator {
 	}
 
 	private static Source loadXSD(){
-		// TODO: load name from properties file
-		Source xsd = new StreamSource(Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream("ElectionResultXmlSchema"));
-		return xsd;
+		try{
+			FileInputStream in = new FileInputStream("ElectionResultXmlSchema.xsd");
+			Source xsd = new StreamSource(in);
+
+			return xsd;
+		} catch(FileNotFoundException e){
+			System.out.println("Didn't find a file: " + e.getMessage());
+			return null;
+
+		}
 	} 
 }

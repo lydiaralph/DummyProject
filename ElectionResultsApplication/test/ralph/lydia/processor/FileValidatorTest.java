@@ -3,57 +3,38 @@ package ralph.lydia.processor;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
 
-import org.junit.BeforeClass;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
+
+import ralph.lydia.utilities.LoadProperties;
 
 public class FileValidatorTest {
-	
-	File xmlFile;
-	
+
 	@Test
 	public void testValidXMLData() throws Exception {
+		String testFileName = "result001.xml";
+		
 		FileValidator fileValidator = new FileValidator();
-		try{
-			loadXmlFile("valid.xml");
-		}
-		catch(FileValidatorException e){
-			fail(e.getMessage());
-		}
-		assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(xmlFile));
+		
+		File f = new File(loadXmlFile(testFileName));
+		
+		assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(f));
 	}
-	
+
 	@Test
 	public void testInvalidXMLData() throws Exception {
+		String testFileName = "result001invalid.xml";
+		
 		FileValidator fileValidator = new FileValidator();
-		try{
-			loadXmlFile("invalid.xml");
-		}
-		catch(FileValidatorException e){
-			fail(e.getMessage());
-		}
-		assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(xmlFile));
+		
+		File f = new File(loadXmlFile(testFileName));
+		
+		assertFalse("Expected file validator to reject invalid file", fileValidator.validateXmlFile(f));
 	}
-
-
-	private void loadXmlFile(String fileName) throws FileValidatorException{
-		try{
-			URL xmlFileURL = Thread.currentThread().getContextClassLoader()
-					.getResource(fileName);
-			
-			this.xmlFile = new File(xmlFileURL.toURI());
-		}
-		catch(URISyntaxException e){
-			throw new FileValidatorException("Syntax error: " + e.getMessage());
-		}
-		catch(NullPointerException e){
-			throw new FileValidatorException("Could not retrieve XML file: filepath was " + e.getMessage());
-		}
-	} 
+	
+	private String loadXmlFile(String fileName) throws FileValidatorException{
+		return LoadProperties.getKeyValue("XML_INBOUND") + fileName;
+	}
+	
 }
