@@ -1,11 +1,7 @@
 package ralph.lydia.processor;
 
-import java.io.Reader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -20,11 +16,7 @@ public class FileLoaderImpl implements FileLoader{
 	
 	String filePath = LoadProperties.getKeyValue("XML_INBOUND");
 
-	public File loadNextFile(){
-		return getFile();
-	}
-
-	private File getFile(){
+	public File loadNextFile() throws NoFilesToProcessException{
 		try{
 		List<File> filesInFolder = Files.walk(Paths.get(this.filePath))
             .filter(Files::isRegularFile)
@@ -38,9 +30,8 @@ public class FileLoaderImpl implements FileLoader{
 			System.out.println(e.getMessage());
 			return null;
 		}
-		catch(IndexOutOfBoundsException e){
-			System.out.println("There are not currently any files in " + filePath);
-			return null;
+		catch(IndexOutOfBoundsException e) {
+			throw new NoFilesToProcessException("There are not currently any files in " + filePath);
 		}
 	}
 }
