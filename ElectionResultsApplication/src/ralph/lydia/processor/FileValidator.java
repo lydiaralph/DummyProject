@@ -16,12 +16,12 @@ public class FileValidator {
 
 	//	ErrorReporter errorReporter;
 
-	private String errorString = " was not valid against the schema. Moving to 'Invalid' folder...";
-	private String validString = " was valid. Processing...";
+	private String errorString = " was not valid against the schema.";
+	private String validString = " was valid.";
 
 	private String failureMessage;
 
-	public boolean validateXmlFile(File xmlFile){
+	public boolean validateXmlFile(File xmlFile) throws FileValidatorException{
 
 		Source xmlFileSource = new StreamSource(xmlFile);
 		try{
@@ -31,19 +31,22 @@ public class FileValidator {
 
 			Validator validator = schema.newValidator();
 			validator.validate(xmlFileSource);
-			System.out.println(xmlFileSource.getSystemId() + validString);
+//			System.out.println(xmlFileSource.getSystemId() + validString);
 			return true;
 		} catch (SAXException e) {
-			this.setFailureMessage(xmlFileSource.getSystemId() + errorString);
+//			this.setFailureMessage(xmlFileSource.getSystemId() + errorString);
+			
+			this.setFailureMessage("ERROR: " + xmlFile.getName() + errorString);
 			this.appendFailureMessage("\nReason: " + e.getMessage());
-			System.out.println(this.getFailureMessage());
-			return false;
+			throw new FileValidatorException(this.getFailureMessage());
 		}
 		catch (IOException e){
 			this.setFailureMessage("Could not analyse xmlFileSource " + xmlFileSource);
 			this.appendFailureMessage("\nReason: " + e.getMessage());
-			System.out.println(this.getFailureMessage());
-			return false;
+			throw new FileValidatorException(this.getFailureMessage());
+		}
+		catch(FileValidatorException e){
+			throw new FileValidatorException(e.getMessage());
 		}
 	}
 
@@ -59,16 +62,13 @@ public class FileValidator {
 		this.setFailureMessage(this.failureMessage + message);
 	}
 
-	private static Source loadXSD(){
+	private static Source loadXSD() throws FileValidatorException {
 		try{
 			FileInputStream in = new FileInputStream("ElectionResultXmlSchema.xsd");
 			Source xsd = new StreamSource(in);
-
 			return xsd;
 		} catch(FileNotFoundException e){
-			System.out.println("Didn't find a file: " + e.getMessage());
-			return null;
-
+			throw new FileValidatorException("Didn't find a schema file: " + e.getMessage());
 		}
 	} 
 }
