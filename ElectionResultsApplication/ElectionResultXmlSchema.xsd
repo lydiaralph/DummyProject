@@ -1,33 +1,47 @@
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="constituencyResults">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element name="constituencyResult">
-          <xs:complexType>
-            <xs:sequence>
-              <!-- Not sure whether 'consituency' is a typo or deliberate error -->
-              <xs:element type="xs:byte" name="consituencyId"/>
-              <xs:element type="xs:string" name="constituencyName"/>
-              <xs:element name="results">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="result" maxOccurs="unbounded" minOccurs="0">
-                      <xs:complexType>
-                        <xs:sequence>
-                          <xs:element type="xs:string" name="partyCode"/>
-                          <xs:element type="xs:short" name="votes"/>
-                          <xs:element type="xs:float" name="share"/>
-                        </xs:sequence>
-                      </xs:complexType>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-            <xs:attribute type="xs:byte" name="seqNo"/>
-          </xs:complexType>
-        </xs:element>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-</xs:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="constituencyResults">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="constituencyResult">
+            <xsd:complexType>
+            <xsd:sequence>
+              <!-- Note 'consituencyId' not  'constituencyId' -->
+              <xsd:element type="xsd:int" name="consituencyId" minOccurs="1"/>
+              <xsd:element type="xsd:string" name="constituencyName" minOccurs="1"/>
+              <!-- RESULTS -->
+               <xsd:element name="results">
+                  <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="result" maxOccurs="unbounded" minOccurs="1">
+                        <xsd:complexType>
+                        <xsd:sequence>
+                        <-- PARTY CODE -->
+							<xsd:element type="xsd:string" name="partyCode" minOccurs="1">
+                            <xsd:simpleType>
+    							<xsd:restriction base="xsd:string">
+	      							<xsd:enumeration value="CON"/>
+      								<xsd:enumeration value="LAB"/>
+      								<xsd:enumeration value="LD"/>
+      								<xsd:enumeration value="UKIP"/>
+     								<xsd:enumeration value="OTH"/>
+    							</xsd:restriction>
+  							</xsd:simpleType>
+						  </xsd:element>
+                        <-- END PARTY CODE -->
+                      <xsd:element type="xsd:int" name="votes" minOccurs="1"/>
+                      <xsd:element type="xsd:float" name="share" minOccurs="1"/>
+                      </xsd:sequence>
+                      </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <!-- END RESULTs -->
+            </xsd:sequence>
+			<xsd:attribute type="xsd:int" name="seqNo"/>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
