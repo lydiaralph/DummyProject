@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import ralph.lydia.utilities.LoadProperties;
+import ralph.lydia.parser.ReadXMLFile;
 import ralph.lydia.results.ResultModel;
 
 public class FileProcessorImpl implements FileProcessor {
