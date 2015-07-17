@@ -1,6 +1,7 @@
 package ralph.lydia.parser;
 
 import org.xml.sax.Attributes;
+
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -8,7 +9,7 @@ import ralph.lydia.results.ResultModel;
 
 import java.util.ArrayList;
 import java.util.Stack;
-
+import java.lang.IllegalArgumentException;
 
 public class DefaultHandlerExt extends DefaultHandler{
 
@@ -73,6 +74,7 @@ public class DefaultHandlerExt extends DefaultHandler{
 		/** Need to trim whitespace */
 		String value = new String(ch, start, length).trim();
 
+		System.out.println("Setting value " + value + " as " + elementName);
 
 		if(value.isEmpty()){
 			// TODO: IMPROVE THIS
@@ -80,11 +82,17 @@ public class DefaultHandlerExt extends DefaultHandler{
 			throw new SAXException("Cannot accept empty value for " + elementName + " in XML file");
 		}
 
-		System.out.println("Setting value " + value + " as " + elementName);
+
 
 		if (elementName.equals("partyCode")){
 			ResultModel result = (ResultModel) this.objectStack.peek();
-			result.setPartyCode(value); 
+			try{
+				result.setPartyCode(value);
+			}
+			catch(IllegalArgumentException e){
+				System.out.println("Did not find a party code to match " + value + ". Setting PartyCode as 'OTH'...");
+				result.setPartyCode("OTH");
+			}
 		} else if (elementName.equals("votes")){
 			ResultModel result = (ResultModel) this.objectStack.peek();
 			result.setVotes(Integer.parseInt(value)); 

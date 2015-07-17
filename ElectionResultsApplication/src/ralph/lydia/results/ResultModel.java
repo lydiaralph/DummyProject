@@ -4,20 +4,14 @@ import ralph.lydia.processor.FileValidatorException;
 
 public class ResultModel {
 
-//	private PartyCode partyCode;
+	private PartyCode partyCode;
 	
-	private String partyCode;
+//	private String partyCode;
 	private int votes;
 	private float share;
 	
-	public ResultModel(){
-		this.setPartyCode(null);
-		this.setVotes(0);
-		this.setShare(0);
-	}
-	
-//	public PartyCode getPartyCode(){
-	public String getPartyCode(){
+	public PartyCode getPartyCode(){
+//	public String getPartyCode(){
 		return this.partyCode;
 	}
 	
@@ -29,10 +23,8 @@ public class ResultModel {
 		return this.share;
 	}
 	
-	public void setPartyCode(String partyCode){
-//		this.partyCode = PartyCode.valueOf(partyCode);
-		
-		this.partyCode = "dummy string";
+	public void setPartyCode(String partyCode) throws IllegalArgumentException{
+		this.partyCode = PartyCode.valueOf(partyCode);
 	}
 	
 	public void setVotes(int votes){
