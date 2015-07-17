@@ -53,7 +53,7 @@ public class DefaultHandlerExt extends DefaultHandler{
 	public void endElement(String uri, String localName,
 			String qName) throws SAXException {
 
-		System.out.println("End Element :" + qName);
+//		System.out.println("End Element :" + qName);
 
 		//Remove last added  element
 		this.elementStack.pop();
@@ -74,7 +74,7 @@ public class DefaultHandlerExt extends DefaultHandler{
 		/** Need to trim whitespace */
 		String value = new String(ch, start, length).trim();
 
-		System.out.println("Setting value " + value + " as " + elementName);
+//		System.out.println("Setting value " + value + " as " + elementName);
 
 		if(value.isEmpty()){
 			// TODO: IMPROVE THIS
