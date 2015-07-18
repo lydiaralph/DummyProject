@@ -13,6 +13,10 @@ public class ResultModel {
 		return this.partyCode;
 	}
 	
+	public String getPartyCodeName(){
+		return this.partyCode.getPartyCodeName();
+	}
+	
 	public int getVotes(){
 		return this.votes;
 	}
@@ -48,9 +52,10 @@ public class ResultModel {
 	}
 	
 	public void printAllValues(){
-		System.out.println("PartyCode: " + this.getPartyCode() + "\n");
-		System.out.println("Votes: " + this.getVotes() + "\n");
-		System.out.println("Share: " + this.getShare() + "\n");
+		System.out.println("\n");
+		System.out.println("PartyCode: " + this.getPartyCodeName());
+		System.out.println("Votes: " + this.getVotes());
+		System.out.println("Share: " + this.getShare());
 	}
 	
 }
