@@ -57,7 +57,7 @@ public class ResultsTableImpl implements ResultsTable {
 	 */
 	public void updateResults(ConstituencyResult constitResult) {
 		
-		System.out.println("\n --- REFRESHING DISPLAY --- \n");
+		System.out.println("\n --- REFRESHING OVERALL RESULTS: NEW TOTALS --- \n");
 
 		for (ResultModel concatResult : concatenatedResults) {
 

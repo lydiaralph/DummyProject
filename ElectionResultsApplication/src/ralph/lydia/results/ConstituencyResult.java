@@ -69,6 +69,7 @@ public class ConstituencyResult {
 	}
 
 	public void printConstituencyResult(){
+		System.out.println("\n --- FINISHED PROCESSING CONSTITUENCY RESULT --- \n");
 		System.out.println("Finished processing result file with seqNo " + this.getSeqNo());
 		System.out.println("Results for constituency " + this.getConstituencyName() 
 				+ " (ID: " + this.getConstituencyId() + "):");
