@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ResultsTableImpl implements ResultsTable {
+	ConstituencyResult constituencyResult;
 	List<ResultModel> concatenatedResults;
 
 	// Constructor
@@ -17,6 +18,7 @@ public class ResultsTableImpl implements ResultsTable {
 			result.setVotes(0);
 			concatenatedResults.add(result);
 		}
+		this.constituencyResult.setResultList(concatenatedResults);
 	}
 
 	/**
@@ -29,7 +31,7 @@ public class ResultsTableImpl implements ResultsTable {
 		}
 	}
 	
-	public void refreshDisplay(List<ResultModel> resultList){
+	public void refreshDisplay(ConstituencyResult resultList){
 		clearDisplay();
 		updateResults(resultList);
 		displayResults();
@@ -43,13 +45,13 @@ public class ResultsTableImpl implements ResultsTable {
 	 * For each result that has just come in, find the matching enum in
 	 * concatenatedResults and increase votes and share
 	 */
-	public void updateResults(List<ResultModel> resultList) {
+	public void updateResults(ConstituencyResult constitResult) {
 		
 		System.out.println("\n --- REFRESHING DISPLAY --- \n");
 
 		for (ResultModel concatResult : concatenatedResults) {
 
-			for (ResultModel freshResult : resultList) {
+			for (ResultModel freshResult : constitResult.getResultList()) {
 
 				if (freshResult.getPartyCode().equals(
 						concatResult.getPartyCode())) {
@@ -64,8 +66,8 @@ public class ResultsTableImpl implements ResultsTable {
 			// TODO: use Collections.sort?
 		}
 		
-		public List<ResultModel> getConcatenatedResults(){
-			return this.concatenatedResults;
+		public ConstituencyResult getConcatenatedResults(){
+			return this.constituencyResult;
 		}
 
 }

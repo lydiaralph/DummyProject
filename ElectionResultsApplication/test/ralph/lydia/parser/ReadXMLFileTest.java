@@ -4,11 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import ralph.lydia.results.ResultModel;
+import ralph.lydia.results.ConstituencyResult;
 import ralph.lydia.utilities.LoadFilesFromTestInbound;
-import ralph.lydia.results.PartyCode;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.io.File;
 
 import org.junit.Test;
@@ -25,12 +23,13 @@ public class ReadXMLFileTest {
 		
 		File f = new File(LoadFilesFromTestInbound.loadXmlFile(testFileName));
 		
-		List<ResultModel> resultList = new ArrayList<ResultModel>();
+		ConstituencyResult constituencyResult = new ConstituencyResult();
 		
-		resultList = ReadXMLFile.readXmlFileAndParseContents(f.getAbsolutePath());
+		constituencyResult = ReadXMLFile.readXmlFileAndParseContents(f.getAbsolutePath());
 
-		for(ResultModel result : resultList) {
-			result.printAllValues();
+		constituencyResult.printConstituencyResult();
+		
+		for(ResultModel result : constituencyResult.getResultList()) {
 	       switch(result.getPartyCode()){
 	       case CON:
 	    	   assertEquals(7924,result.getVotes());
@@ -56,12 +55,13 @@ public class ReadXMLFileTest {
 		
 		File f = new File(LoadFilesFromTestInbound.loadXmlFile(testFileName));
 		
-		List<ResultModel> resultList = new ArrayList<ResultModel>();
+		ConstituencyResult constituencyResult = new ConstituencyResult();
 		
-		resultList = ReadXMLFile.readXmlFileAndParseContents(f.getAbsolutePath());
+		constituencyResult = ReadXMLFile.readXmlFileAndParseContents(f.getAbsolutePath());
 
-		for(ResultModel result : resultList) {
-			result.printAllValues();
+		constituencyResult.printConstituencyResult();
+		
+		for(ResultModel result : constituencyResult.getResultList()) {
 	       switch(result.getPartyCode()){
 	       case CON:
 	    	   assertNotEquals(924,result.getVotes());

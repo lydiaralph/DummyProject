@@ -5,12 +5,11 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
 
 import ralph.lydia.utilities.LoadProperties;
 import ralph.lydia.parser.ReadXMLFile;
 import ralph.lydia.results.ResultModel;
+import ralph.lydia.results.ConstituencyResult;
 
 /**
  * FileProcessorImpl is a supervisor class:
@@ -28,14 +27,14 @@ public class FileProcessorImpl implements FileProcessor {
 	private File xmlFile;
 	private String outboundFolder;
 
-	public List<ResultModel> processFile() {
+	public ConstituencyResult processFile() {
 		
-		List<ResultModel> resultList = new ArrayList<ResultModel>();
-
+		ConstituencyResult constituencyResult = new ConstituencyResult();
+		
 		try{
 			xmlFile = loadFile();
 			xmlFile = validateFile(xmlFile);
-			resultList = readFile(xmlFile);
+			constituencyResult = readFile(xmlFile);
 			moveFileToOutboundFolder(xmlFile, outboundFolder);
 			
 		} catch (NullPointerException e){
@@ -45,7 +44,7 @@ public class FileProcessorImpl implements FileProcessor {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		return resultList;
+		return constituencyResult;
 	}
 	
 	// Should probably be in different class - breaks Single Responsibility
@@ -97,22 +96,19 @@ public class FileProcessorImpl implements FileProcessor {
 		return xmlFile;
 	}
 
-	private List<ResultModel> readFile(File xmlFile){
-		List<ResultModel> resultList = new ArrayList<ResultModel>();  
+	private ConstituencyResult readFile(File xmlFile){
+		ConstituencyResult constituencyResult = new ConstituencyResult();
 		try {
-			resultList = ReadXMLFile.readXmlFileAndParseContents(xmlFile.getAbsolutePath());
-			for(ResultModel model : resultList) {
-//				model.printAllValues();
-			}
+			constituencyResult = ReadXMLFile.readXmlFileAndParseContents(xmlFile.getAbsolutePath());
+			constituencyResult.printConstituencyResult();
 		} catch(NullPointerException | FileValidatorException e){
 			System.out.println(e.getMessage());
 			this.setOutboundFolder("XML_INVALID");
 		}
-		return resultList;
+		return constituencyResult;
 
 	}
 	
-
 	private String getOutboundFolder() {
 		return outboundFolder;
 	}
