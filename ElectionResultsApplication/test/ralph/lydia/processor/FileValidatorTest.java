@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 
-import ralph.lydia.utilities.LoadProperties;
+import ralph.lydia.utilities.LoadFilesFromTestInbound;
 
 public class FileValidatorTest {
 
@@ -19,7 +19,7 @@ public class FileValidatorTest {
 		
 		FileValidator fileValidator = new FileValidator();
 		
-		File f = new File(loadXmlFile(testFileName));
+		File f = new File(LoadFilesFromTestInbound.loadXmlFile(testFileName));
 		
 		assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(f));
 	}
@@ -30,7 +30,7 @@ public class FileValidatorTest {
 		
 		FileValidator fileValidator = new FileValidator();
 		
-		File f = new File(loadXmlFile(testFileName));
+		File f = new File(LoadFilesFromTestInbound.loadXmlFile(testFileName));
 		
 		assertFalse("Expected file validator to reject invalid file", fileValidator.validateXmlFile(f));
 	}
@@ -47,15 +47,5 @@ public class FileValidatorTest {
 			} catch (NoFilesToProcessException|FileValidatorException e){
 				fail(e.getMessage());
 			}
-	}
-	
-	/**
-	 * Helper method for testing, not used in program 
-	 * @param fileName
-	 * @return absolute path for file from config.properties
-	 */
-	private String loadXmlFile(String fileName){
-		return LoadProperties.getKeyValue("XML_TEST_INBOUND") + fileName;
-	}
-	
+	}	
 }
