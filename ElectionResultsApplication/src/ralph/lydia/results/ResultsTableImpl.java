@@ -36,7 +36,7 @@ public class ResultsTableImpl implements ResultsTable {
 	}
 
 	private void clearDisplay(){
-		
+		// TODO
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class ResultsTableImpl implements ResultsTable {
 	}
 		
 		public void sortAscendingOrder(){
-			
+			// TODO: use Collections.sort?
 		}
 		
 		public List<ResultModel> getConcatenatedResults(){
