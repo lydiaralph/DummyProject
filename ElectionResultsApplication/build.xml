@@ -3,11 +3,15 @@
 <project name="ElectionResultsApplication" default="localMain" basedir="." 
 	xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:jacoco="antlib:org.jacoco.ant">
 
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="./ElectionResultsDependencies/jacocoant.jar"/>
+    </taskdef>
+	
 	<property file="config.properties" />
 	
 	<property name="distribution" value="ElectionResultsApplication" />
 	
-	<target name="localMain" depends="setupFolders, getDependencies, compileSrc,compileTests" />
+	<target name="localMain" depends="setupFolders, getDependencies, compileSrc,compileTests,runtests,testReport" />
 	<target name="main" depends="setupFolders, getDependencies, compileSrc" />
 	<target name="mainWithTests" depends="setupFolders, getDependencies, compileSrc, compileTests" />
 	
@@ -59,7 +63,55 @@
 	
 	<target name="runtests" depends="compileTests">
 		<mkdir dir="dist/testresults" />
+		
+		<jacoco:coverage destfile="dist/">
+		<junit fork="yes" forkmode="once" failureProperty="test.failed" haltonfailure="${isFail}">
+			<classpath location="dist/${distribution}/classes" />
+
+			<classpath>
+				<pathelement location="dist/${distribution}/test" />
+				<pathelement path="dist/${distribution}/classes" />
+				<fileset dir="dist/${distribution}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+
+			<formatter type="xml" />
+			<batchtest fork="no" todir="dist/testresults">
+				<fileset dir="dist/${distribution}/test">
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+					
+			</junit>
+		</jacoco:coverage>
 	</target>
+	
+    <target name="testReport" depends="runtests">
+        <!-- Step 3: Create coverage report -->
+        <jacoco:report>
+
+            <!-- This task needs the collected execution data and ... -->
+            <executiondata>
+                <file file="dist/jacoco.exec"/>
+            </executiondata>
+
+            <!-- the class files and optional source files ... -->
+            <structure name="${distribution} coverage report">
+                <classfiles>
+                    <fileset dir="dist/${distribution}/classes"/>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="dist/src"/>
+                </sourcefiles>
+            </structure>
+
+            <!-- to produce reports in different formats. -->
+            <html destdir="${result.report.dir}"/>
+            <csv destfile="${result.report.dir}/report.csv"/>
+            <xml destfile="${result.report.dir}/report.xml"/>
+        </jacoco:report>
+    </target>
 	
 	<target name="deleteOldFolders">	
 		<delete dir="dist" />
@@ -72,6 +124,7 @@
 		<mkdir dir="dist/${distribution}/" />
 		<mkdir dir="dist/${distribution}/src" />
 		<mkdir dir="dist/${distribution}/test" />
+		<mkdir dir="dist/${distribution}/testresults" />
 		<mkdir dir="dist/${distribution}/classes" />
 		<mkdir dir="dist/${distribution}/lib" />
 		<property name="lib.dir" value="dist/${distribution}/lib" />
