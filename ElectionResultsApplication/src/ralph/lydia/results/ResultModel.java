@@ -6,12 +6,10 @@ public class ResultModel {
 
 	private PartyCode partyCode;
 	
-//	private String partyCode;
 	private int votes;
 	private float share;
 	
 	public PartyCode getPartyCode(){
-//	public String getPartyCode(){
 		return this.partyCode;
 	}
 	
@@ -37,6 +35,14 @@ public class ResultModel {
 	
 	public void setShare(float share){
 		this.share = share;
+	}
+	
+	public void addVotes(int votes){
+		this.votes += votes;
+	}
+	
+	public void addShare(float share){
+		this.share += share;
 	}
 	
 	public void printAllValues(){
