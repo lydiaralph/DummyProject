@@ -28,7 +28,13 @@ public class ResultsTableImpl implements ResultsTable {
 	 */
 	public void displayResults() {
 		System.out.println("Running total:");
-		this.constituencyResult.sortDescendingVotes();
+		System.out.println("Total votes cast: " + constituencyResult.getTotalVotes());
+		
+		// TODO: Investigate. This actually prints out descending order, but 
+		// calling sortDescendingVotes prints out ascending order, and calling
+		// nothing leaves results unsorted. Perhaps because
+		// constituencyResult is already being sorted somewhere? Not robust.
+		this.constituencyResult.sortAscendingVotes();
 		
 		for (ResultModel result : this.constituencyResult.getResultList()) {
 			result.printAllValues();
@@ -60,10 +66,10 @@ public class ResultsTableImpl implements ResultsTable {
 				if (freshResult.getPartyCode().equals(
 						concatResult.getPartyCode())) {
 					concatResult.addVotes(freshResult.getVotes());
-					concatResult.addShare(freshResult.getShare());
 				}
 			}
 		}
+		this.constituencyResult.updateShareByTotalVotes();
 	}
 		
 		public void sortAscendingOrder(){

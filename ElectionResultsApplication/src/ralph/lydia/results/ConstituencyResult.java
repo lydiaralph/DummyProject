@@ -51,6 +51,22 @@ public class ConstituencyResult {
 	public List<ResultModel> getResultList(){
 		return this.resultList;
 	}
+	
+	public int getTotalVotes(){
+		int totalVotes = 0;
+		for (ResultModel result : this.getResultList()) {
+			totalVotes += result.getVotes();
+		}
+		return totalVotes;
+	}
+	
+	public void updateShareByTotalVotes(){
+		int totalVotes = this.getTotalVotes();
+		
+		for (ResultModel result : resultList) {
+			result.setShare((float) result.getVotes()*100 / totalVotes);
+		}
+	}
 
 	public void printConstituencyResult(){
 		System.out.println("Finished processing result file with seqNo " + this.getSeqNo());
@@ -83,8 +99,24 @@ public class ConstituencyResult {
                 return party1.getVotes() - party2.getVotes();
             }
         };
+    }
+    
+	public void sortAscendingVotes(){
+		Collections.sort(this.resultList, ascVotes);
+	}
+	
+    // These variables are static because you don't need multiple copies
+    // for sorting, as they have no intrinsic state.
+    static private Comparator<ResultModel> ascVotes;
 
-       
+    // Initialize static variables inside a static block.
+    static {
+        ascVotes = new Comparator<ResultModel>(){
+            @Override
+            public int compare(ResultModel party1, ResultModel party2){
+                return party2.getVotes() - party1.getVotes();
+            }
+        };
     }
 	
 }
