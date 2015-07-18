@@ -11,7 +11,7 @@ public class ResultsTableImplTest {
 	public void newResultTableTest(){
 		ResultsTable resultTable = new ResultsTableImpl();
 		
-		assertEquals(resultTable.getConcatenatedResults().size(), PartyCode.values().length );
+		assertEquals(resultTable.getConcatenatedResults().getResultList().size(), PartyCode.values().length );
 		resultTable.displayResults();
 		
 	}
