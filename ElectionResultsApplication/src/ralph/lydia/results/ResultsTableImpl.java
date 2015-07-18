@@ -28,7 +28,7 @@ public class ResultsTableImpl implements ResultsTable {
 	 */
 	public void displayResults() {
 		System.out.println("Running total:");
-		this.constituencyResult.sortAscendingVotes();
+		this.constituencyResult.sortDescendingVotes();
 		
 		for (ResultModel result : this.constituencyResult.getResultList()) {
 			result.printAllValues();

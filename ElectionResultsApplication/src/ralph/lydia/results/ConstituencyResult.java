@@ -67,17 +67,17 @@ public class ConstituencyResult {
 	 * @param resultslist
 	 */
 	
-	public void sortAscendingVotes(){
-		Collections.sort(this.resultList, ascVotes);
+	public void sortDescendingVotes(){
+		Collections.sort(this.resultList, descVotes);
 	}
 	
     // These variables are static because you don't need multiple copies
     // for sorting, as they have no intrinsic state.
-    static private Comparator<ResultModel> ascVotes;
+    static private Comparator<ResultModel> descVotes;
 
     // Initialize static variables inside a static block.
     static {
-        ascVotes = new Comparator<ResultModel>(){
+        descVotes = new Comparator<ResultModel>(){
             @Override
             public int compare(ResultModel party1, ResultModel party2){
                 return party1.getVotes() - party2.getVotes();
