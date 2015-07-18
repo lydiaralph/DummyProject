@@ -9,6 +9,7 @@ public class ResultsTableImpl implements ResultsTable {
 
 	// Constructor
 	public ResultsTableImpl() {
+		constituencyResult = new ConstituencyResult();
 		concatenatedResults = new ArrayList<ResultModel>();
 
 		for (PartyCode pc : PartyCode.values()) {
