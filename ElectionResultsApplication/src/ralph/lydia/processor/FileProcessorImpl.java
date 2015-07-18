@@ -12,43 +12,38 @@ import ralph.lydia.utilities.LoadProperties;
 import ralph.lydia.parser.ReadXMLFile;
 import ralph.lydia.results.ResultModel;
 
+/**
+ * FileProcessorImpl is a supervisor class:
+ * - loads the file
+ * - validates the file against the schema
+ * - reads the data in from the xml file
+ * - concatenates this data
+ * - moves the file to relevant folder 
+ * 
+ * @author lydia
+ *
+ */
 public class FileProcessorImpl implements FileProcessor {
 
-	private static File xmlFile;
-	private static String outboundFolder;
+	private File xmlFile;
+	private String outboundFolder;
 
 	// public static void processFile(){
 	public void processFile() {
 		FileLoader loader = new FileLoaderImpl();
-		FileValidator fileValidator = new FileValidator();
-		ReadXMLFile reader = new ReadXMLFile();
 		List<ResultModel> resultList = new ArrayList<ResultModel>();
 
-		try {
-			xmlFile = null; // Resets without having to create new object
-			xmlFile = loader.loadNextFile();
-			fileValidator.validateXmlFile(xmlFile);
-			outboundFolder = "XML_PROCESSED";
-		} catch (NoFilesToProcessException e){
-			System.out.println(e.getMessage());
-		
-		} catch (FileValidatorException e) {
-			System.out.println(e.getMessage());
-			outboundFolder = "XML_INVALID";
-		}
-
-		try {
-			resultList = ReadXMLFile.readXmlFileAndParseContents(xmlFile.getAbsolutePath());
-	        for(ResultModel model : resultList) {
-	            model.printAllValues();
-	        }
-		} catch(FileValidatorException e){
-			System.out.println(e.getMessage());
-			outboundFolder = "XML_INVALID";
-		}
-			
 		try{
+			xmlFile = loader.loadNextFile();
+			xmlFile = validateFile(xmlFile);
+			resultList = getFileData(xmlFile);
 			moveToOutboundFolder(xmlFile, outboundFolder);
+		} catch (NullPointerException e){
+			System.out.println(e.getMessage());
+			return;
+		} catch(NoFilesToProcessException e){
+			e.getMessage();
+			return;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -56,16 +51,13 @@ public class FileProcessorImpl implements FileProcessor {
 
 	// Should probably be in different class - breaks Single Responsibility
 	// principle?
-	private static void moveToOutboundFolder(File inboundFile,
+	private void moveToOutboundFolder(File inboundFile,
 			String outboundFolder) throws IOException {
 		String outboundDir = LoadProperties.getKeyValue(outboundFolder);
-		
-
 
 		try {
 			Path processedFilePath = inboundFile.toPath();
-			Path outboundFilePath = new File(outboundDir, inboundFile.getName())
-					.toPath();
+			Path outboundFilePath = new File(outboundDir, inboundFile.getName()).toPath();
 			System.out.println("Moving file " + inboundFile + " at "
 					+ processedFilePath);
 			System.out.println(" to outbound folder " + outboundFolder + " at "
@@ -75,7 +67,7 @@ public class FileProcessorImpl implements FileProcessor {
 				throw new IOException("Could not find outbound folder "
 						+ outboundFolder + " at path '" + outboundDir + "'. Config error?");
 			}
-			
+
 			Files.move(processedFilePath, outboundFilePath);
 		} catch (IOException e) {
 			throw new IOException("Unexpected error while moving file: "
@@ -83,8 +75,38 @@ public class FileProcessorImpl implements FileProcessor {
 		}
 	}
 
-	public String getOutboundFolder() {
+	private String getOutboundFolder() {
 		return outboundFolder;
 	}
 
+	private void setOutboundFolder(String s) {
+		this.outboundFolder = s;
+	}
+
+	private File validateFile(File xmlFile){
+		try {
+			FileValidator fileValidator = new FileValidator();
+			fileValidator.validateXmlFile(xmlFile);
+			this.setOutboundFolder("XML_PROCESSED");
+		} catch (FileValidatorException e) {
+			System.out.println(e.getMessage());
+			this.setOutboundFolder("XML_INVALID");
+		}
+		return xmlFile;
+	}
+
+	private List<ResultModel> getFileData(File xmlFile){
+		List<ResultModel> resultList = new ArrayList<ResultModel>();  
+		try {
+			resultList = ReadXMLFile.readXmlFileAndParseContents(xmlFile.getAbsolutePath());
+			for(ResultModel model : resultList) {
+				model.printAllValues();
+			}
+		} catch(NullPointerException | FileValidatorException e){
+			System.out.println(e.getMessage());
+			this.setOutboundFolder("XML_INVALID");
+		}
+		return resultList;
+
+	}
 }
