@@ -21,6 +21,13 @@ public class FileValidator {
 
 	private String failureMessage;
 
+	/**
+	 * Takes file and checks it against schema. 
+	 *  
+	 * @param xmlFile
+	 * @return boolean
+	 * @throws FileValidatorException
+	 */
 	public boolean validateXmlFile(File xmlFile) throws FileValidatorException{
 
 		Source xmlFileSource = new StreamSource(xmlFile);
