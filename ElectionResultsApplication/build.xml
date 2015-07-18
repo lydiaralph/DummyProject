@@ -1,16 +1,65 @@
 <?xml version="1.0"?>
 
-<project name="ElectionResultsApplication" default="localMain" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="ElectionResultsApplication" default="localMain" basedir="." 
+	xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:jacoco="antlib:org.jacoco.ant">
+
 	<property file="config.properties" />
 	
 	<property name="distribution" value="ElectionResultsApplication" />
 	
-	<target name="localMain" depends="setupFolders" />
-	<target name="main" depends="setupFolders,getDependencies" />
+	<target name="localMain" depends="setupFolders, getDependencies, compileSrc,compileTests" />
+	<target name="main" depends="setupFolders, getDependencies, compileSrc" />
+	<target name="mainWithTests" depends="setupFolders, getDependencies, compileSrc, compileTests" />
 	
 	<target name="setupFolders" depends="deleteOldFolders,makeNewFolders,checkFoldersExist"/>
 	
-	<target name="getDependencies" depends="setIvyPresent,retrieveWithIvy,retrieveAll" />
+	<!-- <target name="getDependencies" depends="setIvyPresent,retrieveWithIvy,retrieveAll" /> -->
+	
+	<target name="getDependencies" depends="retrieveAll" />
+	
+	<target name="compileSrc">
+		<path id="externalJars">
+			<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<echo>building source for: ${distribution}</echo>
+		<javac srcdir="src" destdir="dist/${distribution}/classes" debug="on" >
+			<classpath refid="externalJars" />
+			<classpath location="dist/classes"/>
+		</javac>
+		<copy todir="dist/${distribution}/classes">
+			<fileset file="src/*.x*" /> <!-- intended for xsd and xml files -->
+			<fileset file="src/*.txt" /> <!-- intended for text files -->
+		</copy>	
+		<copy todir="dist/${distribution}/src">
+			<fileset dir="src/" />
+		</copy>
+	</target>
+	
+	<target name="compileTests">
+		<path id="externalJars">
+			<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		</path>
+		<echo>building tests for: ${distribution}</echo>
+		<javac srcdir="../${distribution}/test" destdir="dist/${distribution}/classes" debug="on" >
+			<classpath refid="externalJars" />
+			<classpath location="dist/${distribution}/classes"/>
+		</javac>
+		<copy todir="dist/${distribution}/classes">
+			<fileset file="../${distribution}/test/*.x*" /> <!-- intended for xsd and xml files -->
+			<fileset file="../${distribution}/test/*.txt" /> <!-- intended for text files -->
+		</copy>
+		<copy todir="dist/${distribution}/test">
+			<fileset dir="test" />
+		</copy>
+	</target>
+	
+	<target name="runtests" depends="compileTests">
+		<mkdir dir="dist/testresults" />
+	</target>
 	
 	<target name="deleteOldFolders">	
 		<delete dir="dist" />
@@ -21,11 +70,10 @@
 		<mkdir dir="dist" />
 		<mkdir dir="dist/${distribution}" />
 		<mkdir dir="dist/${distribution}/" />
-		<mkdir dir="dist/${distribution}//classes" />
+		<mkdir dir="dist/${distribution}/src" />
+		<mkdir dir="dist/${distribution}/test" />
+		<mkdir dir="dist/${distribution}/classes" />
 		<mkdir dir="dist/${distribution}/lib" />
-		<copy todir="dist/${distribution}/">
-			<fileset dir="../${distribution}/"/>
-		</copy>
 		<property name="lib.dir" value="dist/${distribution}/lib" />
 	</target>
 	
@@ -54,7 +102,7 @@
 	<target name="retrieveAll" unless="ivy.file.present">
 		<echo>! Ivy is not present. Retrieving all libraries...</echo>
 		<copy todir="${lib.dir}">
-			<fileset dir="../ElectionResultsDependencies" />
+			<fileset dir="../${distribution}/ElectionResultsDependencies" />
 		</copy>
 	</target>
 		
