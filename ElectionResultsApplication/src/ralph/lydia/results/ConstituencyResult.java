@@ -1,6 +1,8 @@
 package ralph.lydia.results;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ConstituencyResult {
@@ -58,6 +60,33 @@ public class ConstituencyResult {
 			result.printAllValues();
 		}
 	}
+	
+	/**
+	 * Sort ConstituencyResult by party with most votes
+	 * @see http://stackoverflow.com/a/12450149/2294676
+	 * @param resultslist
+	 */
+	
+	public void sortAscendingVotes(List<ResultModel> resultslist){
+		Collections.sort(resultslist, ascVotes);
+	}
+	
+    // These variables are static because you don't need multiple copies
+    // for sorting, as they have no intrinsic state.
+    static private Comparator<ResultModel> ascVotes;
+
+    // Initialize static variables inside a static block.
+    static {
+        ascVotes = new Comparator<ResultModel>(){
+            @Override
+            public int compare(ResultModel party1, ResultModel party2){
+                return party1.getVotes() - party2.getVotes();
+            }
+        };
+
+       
+    }
+	
 }
 
 
