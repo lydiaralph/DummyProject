@@ -41,6 +41,8 @@ public class ResultModel {
 		this.votes += votes;
 	}
 	
+	
+	// TODO: this is incorrect. Need to set mean
 	public void addShare(float share){
 		this.share += share;
 	}
