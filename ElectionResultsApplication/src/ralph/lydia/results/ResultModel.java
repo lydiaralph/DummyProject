@@ -27,6 +27,10 @@ public class ResultModel {
 		this.partyCode = PartyCode.valueOf(partyCode);
 	}
 	
+	public void setPartyCode(PartyCode partyCode) {
+		this.partyCode = partyCode;
+	}
+	
 	public void setVotes(int votes){
 		this.votes = votes;
 	}
