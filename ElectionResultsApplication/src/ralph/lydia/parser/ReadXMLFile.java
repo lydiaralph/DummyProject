@@ -1,9 +1,9 @@
 package ralph.lydia.parser;
 
 import ralph.lydia.processor.FileValidatorException;
-import ralph.lydia.results.ResultModel;
+import ralph.lydia.results.ConstituencyResult;
+import ralph.lydia.parser.ConstitResultHandler;
 
-import java.util.List;
 import java.io.IOException;
 
 import javax.xml.parsers.SAXParser;
@@ -22,21 +22,26 @@ import org.xml.sax.SAXException;
 
 public class ReadXMLFile {
 	
-	public static List<ResultModel> readXmlFileAndParseContents(String filePath) 
+	public static ConstituencyResult readXmlFileAndParseContents(String filePath) 
 			throws FileValidatorException {
 		
 		try {
+			ConstituencyResult constitResult = new ConstituencyResult();
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
+			ConstitResultHandler constitResultHandler = new ConstitResultHandler();
 			DefaultHandlerExt handler = new DefaultHandlerExt();
-
+			
 			try{
+				saxParser.parse(filePath, constitResultHandler);
 				saxParser.parse(filePath, handler);
 			} catch(SAXException|IOException e){
 				throw new FileValidatorException(e.getMessage());
 			}
-
-			return handler.getResultsList();
+			
+			constitResult = constitResultHandler.getConstituencyResult();
+			constitResult.setResultList(handler.getResultsList());
+			return constitResult;
 		} catch(ParserConfigurationException|SAXException|FileValidatorException e) {
 			throw new FileValidatorException(e.getMessage());
 		}
