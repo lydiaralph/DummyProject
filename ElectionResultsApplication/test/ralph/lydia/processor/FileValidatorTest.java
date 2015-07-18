@@ -14,25 +14,42 @@ import ralph.lydia.utilities.LoadFilesFromTestInbound;
 public class FileValidatorTest {
 
 	@Test
-	public void testValidXMLData() throws Exception {
+	public void testValidXMLData() {
 		String testFileName = "validResult.xml";
 		
 		FileValidator fileValidator = new FileValidator();
 		
 		File f = new File(LoadFilesFromTestInbound.loadXmlFile(testFileName));
 		
-		assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(f));
+		try{
+			assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(f));
+		} catch(FileValidatorException e){
+			fail(e.getMessage());
+		}
 	}
 
 	@Test(expected=FileValidatorException.class)
-	public void testInvalidXMLData() throws Exception {
+	public void testInvalidXMLData() throws FileValidatorException{
 		String testFileName = "invalidResult.xml";
 		
 		FileValidator fileValidator = new FileValidator();
 		
 		File f = new File(LoadFilesFromTestInbound.loadXmlFile(testFileName));
+	
+		assertFalse("Expected file validator to reject invalid file", 
+				fileValidator.validateXmlFile(f));
+	
+	}
+	
+	@Test(expected=FileValidatorException.class)
+	public void testBlankXML() throws FileValidatorException{
+		String testFileName = "blank.xml";
 		
-		assertFalse("Expected file validator to reject invalid file", fileValidator.validateXmlFile(f));
+		FileValidator fileValidator = new FileValidator();
+		
+		File f = new File(LoadFilesFromTestInbound.loadXmlFile(testFileName));
+		
+		assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(f));
 	}
 	
 	
