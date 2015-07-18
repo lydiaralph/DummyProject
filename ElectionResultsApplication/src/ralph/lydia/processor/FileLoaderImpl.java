@@ -1,6 +1,6 @@
 package ralph.lydia.processor;
 
-import NoFilesToProcessException;
+import ralph.lydia.processor.NoFilesToProcessException;
 
 import java.io.File;
 import java.io.IOException;
