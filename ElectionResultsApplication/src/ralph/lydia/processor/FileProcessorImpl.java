@@ -28,40 +28,39 @@ public class FileProcessorImpl implements FileProcessor {
 	private File xmlFile;
 	private String outboundFolder;
 
-	// public static void processFile(){
-	public void processFile() {
-		FileLoader loader = new FileLoaderImpl();
+	public List<ResultModel> processFile() {
+		
 		List<ResultModel> resultList = new ArrayList<ResultModel>();
 
 		try{
-			xmlFile = loader.loadNextFile();
+			xmlFile = loadFile();
 			xmlFile = validateFile(xmlFile);
-			resultList = getFileData(xmlFile);
-			moveToOutboundFolder(xmlFile, outboundFolder);
+			resultList = readFile(xmlFile);
+			moveFileToOutboundFolder(xmlFile, outboundFolder);
+			
 		} catch (NullPointerException e){
 			System.out.println(e.getMessage());
-			return;
 		} catch(NoFilesToProcessException e){
-			e.getMessage();
-			return;
+			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
+		return resultList;
 	}
-
+	
 	// Should probably be in different class - breaks Single Responsibility
 	// principle?
-	private void moveToOutboundFolder(File inboundFile,
+	private void moveFileToOutboundFolder(File inboundFile,
 			String outboundFolder) throws IOException {
 		String outboundDir = LoadProperties.getKeyValue(outboundFolder);
 
 		try {
 			Path processedFilePath = inboundFile.toPath();
 			Path outboundFilePath = new File(outboundDir, inboundFile.getName()).toPath();
-			System.out.println("Moving file " + inboundFile + " at "
-					+ processedFilePath);
-			System.out.println(" to outbound folder " + outboundFolder + " at "
-					+ outboundDir);
+//			System.out.println("Moving file " + inboundFile + " at "
+//					+ processedFilePath);
+//			System.out.println(" to outbound folder " + outboundFolder + " at "
+//					+ outboundDir);
 
 			if (outboundDir == null || outboundDir.isEmpty()) {
 				throw new IOException("Could not find outbound folder "
@@ -75,14 +74,17 @@ public class FileProcessorImpl implements FileProcessor {
 		}
 	}
 
-	private String getOutboundFolder() {
-		return outboundFolder;
+	private File loadFile() throws NoFilesToProcessException{
+		FileLoader loader = new FileLoaderImpl();
+		try{
+			File xmlFile = loader.loadNextFile();
+			return xmlFile;	
+		} catch(NoFilesToProcessException e){
+			throw new NoFilesToProcessException(e.getMessage());
+		}
+		
 	}
-
-	private void setOutboundFolder(String s) {
-		this.outboundFolder = s;
-	}
-
+	
 	private File validateFile(File xmlFile){
 		try {
 			FileValidator fileValidator = new FileValidator();
@@ -95,12 +97,12 @@ public class FileProcessorImpl implements FileProcessor {
 		return xmlFile;
 	}
 
-	private List<ResultModel> getFileData(File xmlFile){
+	private List<ResultModel> readFile(File xmlFile){
 		List<ResultModel> resultList = new ArrayList<ResultModel>();  
 		try {
 			resultList = ReadXMLFile.readXmlFileAndParseContents(xmlFile.getAbsolutePath());
 			for(ResultModel model : resultList) {
-				model.printAllValues();
+//				model.printAllValues();
 			}
 		} catch(NullPointerException | FileValidatorException e){
 			System.out.println(e.getMessage());
@@ -108,5 +110,14 @@ public class FileProcessorImpl implements FileProcessor {
 		}
 		return resultList;
 
+	}
+	
+
+	private String getOutboundFolder() {
+		return outboundFolder;
+	}
+
+	private void setOutboundFolder(String s) {
+		this.outboundFolder = s;
 	}
 }

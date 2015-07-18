@@ -1,7 +1,8 @@
 package ralph.lydia.processor;
 
+import java.util.List;
+import ralph.lydia.results.ResultModel;
+
 public interface FileProcessor {
-	public void processFile();
-	
-	public String getOutboundFolder();
+	public List<ResultModel> processFile();
 }
