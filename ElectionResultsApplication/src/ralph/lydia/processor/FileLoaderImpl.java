@@ -1,5 +1,7 @@
 package ralph.lydia.processor;
 
+import NoFilesToProcessException;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -7,7 +9,6 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.stream.Collectors;
 import java.util.List;
-
 
 import ralph.lydia.utilities.LoadProperties;
 
@@ -31,7 +32,7 @@ public class FileLoaderImpl implements FileLoader{
 			return null;
 		}
 		catch(IndexOutOfBoundsException e) {
-			throw new NoFilesToProcessException("There are not currently any files in " + filePath);
+			throw new NoFilesToProcessException("No new files to process in " + filePath);
 		}
 	}
 }
