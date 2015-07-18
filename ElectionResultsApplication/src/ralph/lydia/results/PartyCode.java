@@ -7,6 +7,8 @@ package ralph.lydia.results;
  *
  */
 public enum PartyCode {
+	// TODO: Improve: should these be set in config file?
+	
 	LAB  ("LABOUR"),
 	LD   ("LIBERAL DEMOCRATS"),
 	CON  ("CONSERVATIVE"),
