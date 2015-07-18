@@ -67,8 +67,8 @@ public class ConstituencyResult {
 	 * @param resultslist
 	 */
 	
-	public void sortAscendingVotes(List<ResultModel> resultslist){
-		Collections.sort(resultslist, ascVotes);
+	public void sortAscendingVotes(){
+		Collections.sort(this.resultList, ascVotes);
 	}
 	
     // These variables are static because you don't need multiple copies

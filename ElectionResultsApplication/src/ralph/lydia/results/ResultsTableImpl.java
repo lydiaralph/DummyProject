@@ -27,7 +27,10 @@ public class ResultsTableImpl implements ResultsTable {
 	 * Consider using JSPs?
 	 */
 	public void displayResults() {
-		for (ResultModel result : concatenatedResults) {
+		System.out.println("Running total:");
+		this.constituencyResult.sortAscendingVotes();
+		
+		for (ResultModel result : this.constituencyResult.getResultList()) {
 			result.printAllValues();
 		}
 	}
