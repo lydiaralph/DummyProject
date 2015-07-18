@@ -55,7 +55,7 @@ public class ResultModel {
 		System.out.println("\n");
 		System.out.println("PartyCode: " + this.getPartyCodeName());
 		System.out.println("Votes: " + this.getVotes());
-		System.out.printf("Share: " + String.format("%.2f", this.getShare()) + "%%");
+		System.out.printf("Share: " + String.format("%.2f", this.getShare()) + "%%\n" );
 	}
 	
 }
