@@ -11,13 +11,13 @@
 	
 	<property name="distribution" value="ElectionResultsApplication" />
 	
-	<target name="localMain" depends="setupFolders, getDependencies, compileSrc,compileTests,runtests,testReport" />
+	<target name="localMain" depends="setupFolders, getDependencies, compileSrc,compileTests,runtests" />
 	<target name="main" depends="setupFolders, getDependencies, compileSrc" />
 	<target name="mainWithTests" depends="setupFolders, getDependencies, compileSrc, compileTests" />
 	
 	<target name="setupFolders" depends="deleteOldFolders,makeNewFolders,checkFoldersExist"/>
 	
-	<!-- <target name="getDependencies" depends="setIvyPresent,retrieveWithIvy,retrieveAll" /> -->
+	<!-- target name="getDependencies" depends="setIvyPresent,retrieveWithIvy,retrieveAll" /> -->
 	
 	<target name="getDependencies" depends="retrieveAll" />
 	
@@ -62,9 +62,12 @@
 	</target>
 	
 	<target name="runtests" depends="compileTests">
-		<mkdir dir="dist/testresults" />
+		<mkdir dir="dist/${distribution}/testresults" />
 		
+		<!--
 		<jacoco:coverage destfile="dist/">
+		-->
+		
 		<junit fork="yes" forkmode="once" failureProperty="test.failed" haltonfailure="${isFail}">
 			<classpath location="dist/${distribution}/classes" />
 
@@ -77,14 +80,16 @@
 			</classpath>
 
 			<formatter type="xml" />
-			<batchtest fork="no" todir="dist/testresults">
-				<fileset dir="dist/${distribution}/test">
+			<batchtest fork="no" todir="dist/${distribution}/testresults">
+				<fileset dir="dist/${distribution}/classes">
 					<include name="**/*Test.class" />
 				</fileset>
 			</batchtest>
 					
 			</junit>
+			<!--
 		</jacoco:coverage>
+		-->
 	</target>
 	
     <target name="testReport" depends="runtests">
@@ -124,7 +129,6 @@
 		<mkdir dir="dist/${distribution}/" />
 		<mkdir dir="dist/${distribution}/src" />
 		<mkdir dir="dist/${distribution}/test" />
-		<mkdir dir="dist/${distribution}/testresults" />
 		<mkdir dir="dist/${distribution}/classes" />
 		<mkdir dir="dist/${distribution}/lib" />
 		<property name="lib.dir" value="dist/${distribution}/lib" />
