@@ -1,7 +1,6 @@
 To begin using this application, please follow these steps:
 
-1. Change the folder paths in ivysettings.xml to point to where the ElectionResultsDependencies folder is stored
-2. Change the folder paths in config.properties to point to where the Inbound, Processed and Invalid folders should live
+1. Change the folder paths in config.properties to point to where the Inbound, Processed and Invalid folders should live
 2. Run the Ant build.xml file
 3. Put the XML files in the Inbound folder (created by the Ant build)
 4. Brew a cup of tea and await results
