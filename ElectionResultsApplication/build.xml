@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
 
-<project name="ElectionResultsApplication" default="localMain" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:jacoco="antlib:org.jacoco.ant">
+<project name="ElectionResultsApplication" default="mainWithTests" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:jacoco="antlib:org.jacoco.ant">
 
 	<property file="config.properties" />
 	
 	<property name="distribution" value="ElectionResultsApplication" />
 	
-	<target name="localMain" depends="setupFolders, getDependencies, compileSrc,compileTests,runtests" />
-	<target name="main" depends="setupFolders, getDependencies, compileSrc" />
-	<target name="mainWithTests" depends="setupFolders, getDependencies, compileSrc, compileTests" />
+	<target name="main" depends="setupFolders, getDependencies, getHelperFiles, compileSrc" />
+	<target name="mainWithTests" depends="setupFolders, getDependencies, getHelperFiles, compileSrc, compileTests,runtests" />
 	
 	<target name="setupFolders" depends="deleteOldFolders,makeNewFolders,checkFoldersExist"/>
 	
@@ -33,6 +32,14 @@
 		</copy>	
 		<copy todir="dist/${distribution}/src">
 			<fileset dir="src/" />
+		</copy>
+	</target>
+	
+	<target name="getHelperFiles">
+		<copy todir="dist/${distribution}/">
+			<fileset file="./*.properties*" />
+			<fileset file="./*.xsd" />
+			<fileset file="./*.txt" />
 		</copy>
 	</target>
 	
