@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 
-<project name="ElectionResultsApplication" default="localMain" basedir="." 
-	xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:jacoco="antlib:org.jacoco.ant">
+<project name="ElectionResultsApplication" default="localMain" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:jacoco="antlib:org.jacoco.ant">
 
-    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
-        <classpath path="./ElectionResultsDependencies/jacocoant.jar"/>
-    </taskdef>
-	
 	<property file="config.properties" />
 	
 	<property name="distribution" value="ElectionResultsApplication" />
@@ -64,10 +59,6 @@
 	<target name="runtests" depends="compileTests">
 		<mkdir dir="dist/${distribution}/testresults" />
 		
-		<!--
-		<jacoco:coverage destfile="dist/">
-		-->
-		
 		<junit fork="yes" forkmode="once" failureProperty="test.failed" haltonfailure="${isFail}">
 			<classpath location="dist/${distribution}/classes" />
 
@@ -87,11 +78,10 @@
 			</batchtest>
 					
 			</junit>
-			<!--
-		</jacoco:coverage>
-		-->
+
 	</target>
 	
+	<!-- Unable to implement as #sourceforge is down -->
     <target name="testReport" depends="runtests">
         <!-- Step 3: Create coverage report -->
         <jacoco:report>
