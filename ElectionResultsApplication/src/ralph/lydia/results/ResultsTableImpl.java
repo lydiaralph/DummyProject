@@ -71,10 +71,6 @@ public class ResultsTableImpl implements ResultsTable {
 		this.constituencyResult.updateShareByTotalVotes();
 	}
 		
-		public void sortAscendingOrder(){
-			// TODO: use Collections.sort?
-		}
-		
 		public ConstituencyResult getConcatenatedResults(){
 			return this.constituencyResult;
 		}
