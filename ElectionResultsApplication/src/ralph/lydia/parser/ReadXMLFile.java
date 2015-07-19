@@ -13,9 +13,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 /**
- * Modelled on {@link http://www.mkyong.com/java/how-to-read-xml-file-in-java-sax-parser mkyong.com}
+ * @see http://www.mkyong.com/java/how-to-read-xml-file-in-java-sax-parser mkyong.com
  *
- * Also modelled on {@link http://howtodoinjava.com/2012/12/18/how-to-parse-an-xml-using-sax-parser-and-defaulthandler/ howtodoinjava.com}
+ * @see http://howtodoinjava.com/2012/12/18/how-to-parse-an-xml-using-sax-parser-and-defaulthandler/ howtodoinjava.com
+ * 
+ * @see http://stackoverflow.com/a/16054/2294676
+ * 
  * @author lydia.ralph
  *
  */

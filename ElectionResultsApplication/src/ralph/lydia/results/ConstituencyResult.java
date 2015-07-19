@@ -88,6 +88,10 @@ public class ConstituencyResult {
 		Collections.sort(this.resultList, descVotes);
 	}
 	
+	
+	/**
+	 * @see http://stackoverflow.com/a/12450149/2294676
+	 */
     // These variables are static because you don't need multiple copies
     // for sorting, as they have no intrinsic state.
     static private Comparator<ResultModel> descVotes;
@@ -106,6 +110,10 @@ public class ConstituencyResult {
 		Collections.sort(this.resultList, ascVotes);
 	}
 	
+	
+	/**
+	 * @see http://stackoverflow.com/a/12450149/2294676
+	 */
     // These variables are static because you don't need multiple copies
     // for sorting, as they have no intrinsic state.
     static private Comparator<ResultModel> ascVotes;

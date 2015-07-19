@@ -47,6 +47,17 @@ public class FileProcessorImpl implements FileProcessor {
 		return constituencyResult;
 	}
 	
+	/**
+	 * Trimmed down version of processFile() to help with testing
+	 * @return
+	 */
+	public ConstituencyResult validateAndReadFileOnly(File xmlFile){
+		ConstituencyResult constituencyResult = new ConstituencyResult();
+		xmlFile = validateFile(xmlFile);
+		constituencyResult = readFile(xmlFile);
+		return constituencyResult;
+	}
+	
 	// Should probably be in different class - breaks Single Responsibility
 	// principle?
 	private void moveFileToOutboundFolder(File inboundFile,

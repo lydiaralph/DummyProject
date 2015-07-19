@@ -69,6 +69,12 @@ public class FileValidator {
 		this.setFailureMessage(this.failureMessage + message);
 	}
 
+	
+	/** 
+	 * @see http://stackoverflow.com/a/15203740/2294676
+	 * @return
+	 * @throws FileValidatorException
+	 */
 	private static Source loadXSD() throws FileValidatorException {
 		try{
 			FileInputStream in = new FileInputStream("ElectionResultXmlSchema.xsd");
