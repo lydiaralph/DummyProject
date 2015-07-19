@@ -4,7 +4,9 @@
 
 	<property file="config.properties" />
 	
-	<property name="distribution" value="ElectionResultsApplication" />
+	<property name="version" value="1.0" />
+	
+	<property name="distribution" value="ElectionResultsApplication-${version}" />
 	
 	<target name="main" depends="setupFolders, getDependencies, getHelperFiles, compileSrc" />
 	<target name="mainWithTests" depends="setupFolders, getDependencies, getHelperFiles, compileSrc, compileTests,runtests" />
@@ -50,13 +52,13 @@
 		</fileset>
 		</path>
 		<echo>building tests for: ${distribution}</echo>
-		<javac srcdir="../${distribution}/test" destdir="dist/${distribution}/classes" debug="on" >
+		<javac srcdir="./test" destdir="dist/${distribution}/classes" debug="on" >
 			<classpath refid="externalJars" />
 			<classpath location="dist/${distribution}/classes"/>
 		</javac>
 		<copy todir="dist/${distribution}/classes">
-			<fileset file="../${distribution}/test/*.x*" /> <!-- intended for xsd and xml files -->
-			<fileset file="../${distribution}/test/*.txt" /> <!-- intended for text files -->
+			<fileset file="./test/*.x*" /> <!-- intended for xsd and xml files -->
+			<fileset file="./test/*.txt" /> <!-- intended for text files -->
 		</copy>
 		<copy todir="dist/${distribution}/test">
 			<fileset dir="test" />
@@ -156,7 +158,7 @@
 	<target name="retrieveAll" unless="ivy.file.present">
 		<echo>! Ivy is not present. Retrieving all libraries...</echo>
 		<copy todir="${lib.dir}">
-			<fileset dir="../${distribution}/ElectionResultsDependencies" />
+			<fileset dir="./ElectionResultsDependencies" />
 		</copy>
 	</target>
 		
