@@ -27,6 +27,8 @@ public class ResultsTableImpl implements ResultsTable {
 	 * Consider using JSPs?
 	 */
 	public void displayResults() {
+		System.out.println("\n --- REFRESHING OVERALL RESULTS: NEW TOTALS --- \n");
+
 		System.out.println("Running total:");
 		System.out.println("Total votes cast: " + constituencyResult.getTotalVotes());
 		
@@ -56,9 +58,6 @@ public class ResultsTableImpl implements ResultsTable {
 	 * concatenatedResults and increase votes and share
 	 */
 	public void updateResults(ConstituencyResult constitResult) {
-		
-		System.out.println("\n --- REFRESHING OVERALL RESULTS: NEW TOTALS --- \n");
-
 		for (ResultModel concatResult : concatenatedResults) {
 
 			for (ResultModel freshResult : constitResult.getResultList()) {
