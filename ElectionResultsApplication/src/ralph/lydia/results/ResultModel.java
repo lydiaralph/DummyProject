@@ -1,7 +1,5 @@
 package ralph.lydia.results;
 
-import ralph.lydia.processor.FileValidatorException;
-
 public class ResultModel {
 
 	private PartyCode partyCode;
@@ -43,12 +41,6 @@ public class ResultModel {
 	
 	public void addVotes(int votes){
 		this.votes += votes;
-	}
-	
-	
-	// TODO: this is incorrect. Need to set mean
-	public void addShare(float share){
-		this.share += share;
 	}
 	
 	public void printAllValues(){
