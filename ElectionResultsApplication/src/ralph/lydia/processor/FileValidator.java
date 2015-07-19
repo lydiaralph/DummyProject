@@ -38,11 +38,8 @@ public class FileValidator {
 
 			Validator validator = schema.newValidator();
 			validator.validate(xmlFileSource);
-//			System.out.println(xmlFileSource.getSystemId() + validString);
 			return true;
 		} catch (SAXException e) {
-//			this.setFailureMessage(xmlFileSource.getSystemId() + errorString);
-			
 			this.setFailureMessage("ERROR: " + xmlFile.getName() + errorString);
 			this.appendFailureMessage("\nReason: " + e.getMessage());
 			throw new FileValidatorException(this.getFailureMessage());
