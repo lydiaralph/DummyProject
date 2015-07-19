@@ -59,9 +59,6 @@ public class ResultsTableImplTest {
 			}
 		}
 
-		System.out.println("i is: " + i);
-		System.out.println("j is: " + j);
-
 		assertEquals(listOfPartyResults.get(i).getVotes(),18686);
 		assertEquals(listOfPartyResults.get(j).getVotes(),12749);
 		assertEquals(overallResultsTable.getConcatenatedResults().getTotalVotes(),47353);
@@ -82,9 +79,6 @@ public class ResultsTableImplTest {
 				j = listOfPartyResults.indexOf(result);
 			}
 		}
-
-		System.out.println("i is: " + i);
-		System.out.println("j is: " + j);
 
 		assertEquals(listOfPartyResults.get(i).getVotes(),(18686+19003));
 		assertEquals(listOfPartyResults.get(j).getVotes(),(12749+8750));
