@@ -51,18 +51,4 @@ public class FileValidatorTest {
 		
 		assertTrue(fileValidator.getFailureMessage(), fileValidator.validateXmlFile(f));
 	}
-	
-	
-	// Should not be in this file?
-	@Test
-	public void testValidateXmlFromFileLoader(){
-			FileLoader loader = new FileLoaderImpl();
-			FileValidator fileValidator = new FileValidator();
-			try{
-				assertTrue(fileValidator.validateXmlFile(loader.loadNextFile()));
-				assertTrue(fileValidator.getFailureMessage().isEmpty());
-			} catch (NoFilesToProcessException|FileValidatorException e){
-				fail(e.getMessage());
-			}
-	}	
 }
