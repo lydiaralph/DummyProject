@@ -1,2 +1,2 @@
-# ElectionResultsApplication
-Developed for BBC Software Developer job application
+# DummyProject
+Developed for job application
